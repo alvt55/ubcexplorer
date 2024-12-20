@@ -5,6 +5,8 @@
 
 import { submitFeedback } from '@/lib/actions';
 import Link from 'next/link';
+import { useState } from 'react';
+import { FileUploader } from 'react-drag-drop-files';
 
 
 
@@ -15,12 +17,15 @@ export default function Form() {
   const typesOfAudience = [
     "student", "visitor", "staff", "alumni", "other"
   ]
-  
 
+
+
+  
 
   return (
     <form action={submitFeedback} className="text-black">
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
+
         {/* Customer Name */}
         <div className="mb-4">
           <label htmlFor="audience" className="mb-2 block text-sm font-medium">
@@ -46,7 +51,28 @@ export default function Form() {
           </div>
         </div>
 
-        {/* Invoice Amount */}
+        {/* rating */}
+        <div className="mb-4">
+          <label htmlFor="rating" className="mb-2 block text-sm font-medium">
+             Rating (/5)
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="rating"
+                name="rating"
+                type="number"
+                min="1"
+                max="5"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                defaultValue={3}
+                required 
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* comments */}
         <div className="mb-4">
           <label htmlFor="comments" className="mb-2 block text-sm font-medium">
               Comments and improvements 
@@ -57,6 +83,7 @@ export default function Form() {
                 id="comments"
                 name="comments"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                maxLength={1000}
                 required 
               />
             </div>
