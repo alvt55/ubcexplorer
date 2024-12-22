@@ -44,7 +44,8 @@ export async function observeFile(file) {
     if (file) {
       const data = await file.arrayBuffer();
       const workbook = XLSX.read(data, { type: 'array' });
-      console.log(workbook);
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      console.log(worksheet); 
     } else {
       console.error('No file selected.');
     }
