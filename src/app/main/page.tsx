@@ -1,6 +1,7 @@
 'use client'
 import { observeFile } from "@/lib/actions";
 import XLSX from 'xlsx'
+import _ from 'lodash'
 
 export default function Page() {
 
@@ -28,11 +29,11 @@ export default function Page() {
     }
 
     // parses into common spreadsheet format
-    const workbook = XLSX.read(data, { type: 'array' });
-    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    const workbook : XLSX.WorkBook = XLSX.read(data, { type: 'array' });
+    const worksheet : XLSX.WorkSheet = workbook.Sheets[workbook.SheetNames[0]];
 
     // workbook -> 2d array, each array being a row in the excel file
-    const raw_data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    const raw_data : Array<Array<String>> = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
     const raw_courses = raw_data.slice(3, raw_data.length); // removing column names
     console.log("raw courses", raw_courses)
     createCourseList(raw_courses);
@@ -41,7 +42,7 @@ export default function Page() {
 
 
   // creates an array of parsed course objects given an array of raw objects from sheet_to_json
-  function createCourseList(rawCourses) {
+  function createCourseList(rawCourses : Array<Array<String>>) {
 
 
     const courses = rawCourses.flatMap((arr) => {
@@ -55,7 +56,7 @@ export default function Page() {
 
 
       
-      // an array of each meeting time 
+      // an array of each meeting time per course
       // ex.
       //  [
       //   "2025-01-06 - 2025-02-12 | Mon Wed | 11:00 a.m. - 12:00 p.m. | BUCH-Floor 1-Room A104",
@@ -63,11 +64,11 @@ export default function Page() {
       //   "2025-02-24 - 2025-04-07 | Mon Wed | 11:00 a.m. - 12:00 p.m. | BUCH-Floor 1-Room A104"
       //  ]
       let meetingTimes = arr[7].trim().split('\n');
+   
+  
 
 
-
-
-      // for each meeting time, creates new object for that course 
+      // for each meeting time, creates new course object
       // 
       // example: 
       /* {
@@ -99,15 +100,17 @@ export default function Page() {
       })
 
 
-      // TODO: remove duplicates 
-      return result;
+      // returns a list of course objects without duplicates 
+      return _.uniqWith(result, _.isEqual);
+
+
     })
+
+
 
     console.log(courses);
 
   }
-
-
 
 
 
