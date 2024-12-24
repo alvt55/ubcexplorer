@@ -2,6 +2,7 @@
 import { observeFile } from "@/lib/actions";
 import XLSX from 'xlsx'
 import _ from 'lodash'
+import JSZip from "jszip";
 
 export default function Page() {
 
@@ -28,12 +29,15 @@ export default function Page() {
       throw new Error(`Data Error: ${e.message}`);
     }
 
+    const zip = await JSZip.loadAsync(data);
+    const strippedData = await zip.generateAsync({ type: 'arraybuffer' });
+
     // parses into common spreadsheet format
-    const workbook : XLSX.WorkBook = XLSX.read(data, { type: 'array' });
-    const worksheet : XLSX.WorkSheet = workbook.Sheets[workbook.SheetNames[0]];
+    const workbook: XLSX.WorkBook = XLSX.read(strippedData, { type: 'array' });
+    const worksheet: XLSX.WorkSheet = workbook.Sheets[workbook.SheetNames[0]];
 
     // workbook -> 2d array, each array being a row in the excel file
-    const raw_data : Array<Array<String>> = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    const raw_data: Array<Array<String>> = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
     const raw_courses = raw_data.slice(3, raw_data.length); // removing column names
     console.log("raw courses", raw_courses)
     createCourseList(raw_courses);
@@ -42,7 +46,7 @@ export default function Page() {
 
 
   // creates an array of parsed course objects given an array of raw objects from sheet_to_json
-  function createCourseList(rawCourses : Array<Array<String>>) {
+  function createCourseList(rawCourses: Array<Array<String>>) {
 
 
     const courses = rawCourses.flatMap((arr) => {
@@ -55,7 +59,7 @@ export default function Page() {
       const indexOfTerm = arr[0].indexOf('Term');
 
 
-      
+
       // an array of each meeting time per course
       // ex.
       //  [
@@ -64,8 +68,8 @@ export default function Page() {
       //   "2025-02-24 - 2025-04-07 | Mon Wed | 11:00 a.m. - 12:00 p.m. | BUCH-Floor 1-Room A104"
       //  ]
       let meetingTimes = arr[7].trim().split('\n');
-   
-  
+
+
 
 
       // for each meeting time, creates new course object
@@ -111,6 +115,9 @@ export default function Page() {
     console.log(courses);
 
   }
+
+
+
 
 
 
