@@ -1,6 +1,8 @@
 
-export type FeedbackForm = {
-    audience: String, 
-    comments: String
-
+export type CourseObj = {
+    term: String,
+    section: String,
+    daysOfWeek: String,
+    time: String,
+    location: String
 }; 
