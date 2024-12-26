@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { CourseObj } from './definitions';
 import _ from 'lodash'
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers'
 
 
 export async function submitFeedback(formdata: FormData) {
@@ -39,6 +40,7 @@ export async function submitFeedback(formdata: FormData) {
   // creates an array of parsed course objects given an array of raw objects from sheet_to_json
 export async function createCourseList(rawCourses: Array<Array<String>>) {
 
+ 
 
   const courses = rawCourses.flatMap((arr) => {
 
@@ -99,7 +101,9 @@ export async function createCourseList(rawCourses: Array<Array<String>>) {
   })
 
 
-  return courses; 
+  const cookieStore = await cookies()
+  const setCourseObjects = cookieStore.set("COURSE_OBJS", JSON.stringify(courses));
+  
 
   
 }
