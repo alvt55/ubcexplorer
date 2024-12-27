@@ -7,6 +7,7 @@ import _ from 'lodash'
 import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers'
 import puppeteer from 'puppeteer';
+import build from 'next/dist/build';
 
 
 export async function submitFeedback(formdata: FormData) {
@@ -63,6 +64,8 @@ export async function createCourseList(rawCourses: Array<Array<String>>) {
     //  ]
     let meetingTimes = arr[7].trim().split('\n');
 
+ 
+
 
     // for each meeting time, creates new course object
     // 
@@ -90,7 +93,7 @@ export async function createCourseList(rawCourses: Array<Array<String>>) {
         section: arr[4],
         daysOfWeek: dayAndTime[1],
         time: dayAndTime[2],
-        location: dayAndTime[3]
+        location: dayAndTime[3] 
 
       }
     })
@@ -101,47 +104,100 @@ export async function createCourseList(rawCourses: Array<Array<String>>) {
 
   })
 
-
+  // setting course objects as cookies via client
   const cookieStore = await cookies()
-  const setCourseObjects = cookieStore.set("COURSE_OBJS", JSON.stringify(courses));
+  const setCourseObjects = cookieStore.set("COURSE_OBJS", JSON.stringify(courses), { maxAge: 604800, httpOnly: true, sameSite: "strict"});
   
 
   
 }
 
 
+// TODO: use places api instead 
+export async function getFullBuildingName(location : String) : Promise<String> {
 
-// export async function getFullBuildingName(abbreviation : String) {
+  const buildingMap: Record<string, string> = {
+    "ALRD": "Lard Hall",
+    "ANSO": "Anthropology and Sociology",
+    "AERL": "Aquatic Ecosystems Research Laboratory",
+    "ACEN": "Asian Centre",
+    "AUDX": "Auditorium Annex",
+    "BINN": "B.C. Binnings Studio",
+    "BIOL": "Biological Sciences",
+    "BUCH": "Buchanan",
+    "BUTO": "Buchanan Tower",
+    "CCM": "Centre for Comparative Medicine",
+    "CIRS": "Centre for Interactive Research on Sustainability",
+    "CHAN": "Chan Centre",
+    "GUNN": "Chan Gunn Pavilion",
+    "CHBE": "Chemical and Biological Engineering Building",
+    "CHEM": "Chemistry",
+    "CEME": "Civil and Mechanical Engineering",
+    "MINL": "Coal and Mineral Processing Laboratory",
+    "COPP": "D.H. Copp",
+    "DLAM": "David Lam Management Research Centre",
+    "DSOM": "Dorothy Somerset Studio",
+    "KENN": "Douglas Kenny",
+    "EOS": "Earth and Ocean Sciences",
+    "ESB": "Earth Sciences Building",
+    "ESC": "Engineering Student Centre",
+    "FNH": "Food, Nutrition and Health",
+    "FSC": "Forest Sciences Centre",
+    "FORW": "Frank Forward",
+    "LASR": "Frederic Lasserre",
+    "FRWO": "Frederic Wood Theatre",
+    "FRDM": "Friedman Building",
+    "GEOG": "Geography",
+    "CUNN": "George Cunningham",
+    "HEBB": "Hebb",
+    "HENN": "Hennings",
+    "ANGU": "Henry Angus",
+    "DMP": "Hugh Dempster Pavilion",
+    "IRSC": "Indian Residential School History and Dialogue Centre",
+    "ICCS": "Institute for Computing (ICICS/CS)",
+    "IBLC": "Irving K Barber Learning Centre",
+    "MCDN": "J.B. MacDonald",
+    "SOWK": "Jack Bell Building for the School of Social Work",
+    "LAX": "Landscape Architecture Annex",
+    "LSK": "Leonard S. Klinck (also known as CSCI)",
+    "PARC": "Library PARC@UBC",
+    "LSC": "Life Sciences Centre",
+    "MCLD": "MacLeod",
+    "MCML": "MacMillan",
+    "MATH": "Mathematics",
+    "MATX": "Mathematics Annex",
+    "MEDC": "Medical Sciences Block C",
+    "MSL": "Michael Smith Laboratories",
+    "MUSC": "Music",
+    "SCRF": "Neville Scarfe",
+    "AUDI": "Old Auditorium",
+    "IRC": "P. A. Woodward Instructional Resources Centre",
+    "PHRM": "Pharmaceutical Sciences Building",
+    "PONE": "Ponderosa Annex E",
+    "PONF": "Ponderosa Office Annex F",
+    "OSB2": "Robert F. Osborne Centre",
+    "SRC": "Student Recreation Centre",
+    "BRIM": "The Brimacombe Building",
+    "UCEN": "The Leon and Thea Koerner University Centre",
+    "TFPB": "Theatre-Film Production Building",
+    "YURT": "UBC Farm - Yurt",
+    "KPAV": "UBC Hospital - Koerner Pavilion",
+    "MGYM": "War Memorial Gymnasium",
+    "EDC": "Wayne and William White Engineering Design Centre",
+    "WESB": "Wesbrook",
+    "WMAX": "West Mall Annex",
+    "SWNG": "West Mall Swing Space"
+  };
 
-//   const browser = await puppeteer.launch();
-//   const page = await browser.newPage();
+  const abbrev = location.trim().split("-")[0];
+ 
 
-//   // Navigate the page to a URL
-//   await page.goto('https://developer.chrome.com/');
+  return buildingMap[abbrev]; 
 
-//   // Set screen size
-//   await page.setViewport({width: 1080, height: 1024});
 
-//   // Type into search box
-//   await page.type('.devsite-search-field', 'automate beyond recorder');
 
-//   // Wait and click on first result
-//   const searchResultSelector = '.devsite-result-item-link';
-//   await page.waitForSelector(searchResultSelector);
-//   await page.click(searchResultSelector);
-
-//   // Locate the full title with a unique string
-//   const textSelector = await page.waitForSelector(
-//     'text/Customize and automate',
-//   );
-//   const fullTitle = await textSelector?.evaluate(el => el.textContent);
-
-//   // Print the full title
-//   console.log('The title of this blog post is "%s".', fullTitle);
-
-//   await browser.close();
-// }
-
+  
+}
 
 
 
