@@ -4,7 +4,7 @@ import XLSX from 'xlsx'
 
 import JSZip from "jszip";
 
-import { createCourseList } from '@/lib/actions'
+import { createCourseList, getFullBuildingName} from '@/lib/actions'
 import { CourseObj } from '@/lib/definitions';
 import { useRouter } from 'next/navigation';
 
@@ -65,9 +65,9 @@ export default function Page() {
         <button type="submit">Get my routes</button>
       </form>
 
-      {courseList}
 
 
+  
 
 
     </div>
