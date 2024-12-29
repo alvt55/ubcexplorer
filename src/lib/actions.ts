@@ -46,8 +46,10 @@ export async function createCourseList(rawCourses: Array<Array<String>>) {
 
   const courses = rawCourses.flatMap((arr) => {
 
+   
 
-    if (arr[2] == "Online Learning") { // removes any courses that are online
+    if (arr[6].includes("Online")) { // removes any courses that are online
+      // console.log('this is an online course', arr); 
       return [];
     }
 
@@ -104,100 +106,108 @@ export async function createCourseList(rawCourses: Array<Array<String>>) {
 
   })
 
+  // console.log('courses to be mapped through', courses); 
+
   // setting course objects as cookies via client
   const cookieStore = await cookies()
-  const setCourseObjects = cookieStore.set("COURSE_OBJS", JSON.stringify(courses), { maxAge: 604800, httpOnly: true, sameSite: "strict"});
-  
+   cookieStore.set("COURSE_OBJS", JSON.stringify(courses), { maxAge: 604800, httpOnly: true, sameSite: "strict"});
+  redirect('/schedule'); 
 
   
 }
 
 
-// TODO: use places api instead 
+// TODO: use places api instead c
 export async function getFullBuildingName(location : String) : Promise<String> {
 
   const buildingMap: Record<string, string> = {
-    "ALRD": "Lard Hall",
-    "ANSO": "Anthropology and Sociology",
-    "AERL": "Aquatic Ecosystems Research Laboratory",
-    "ACEN": "Asian Centre",
-    "AUDX": "Auditorium Annex",
-    "BINN": "B.C. Binnings Studio",
-    "BIOL": "Biological Sciences",
-    "BUCH": "Buchanan",
-    "BUTO": "Buchanan Tower",
-    "CCM": "Centre for Comparative Medicine",
-    "CIRS": "Centre for Interactive Research on Sustainability",
-    "CHAN": "Chan Centre",
-    "GUNN": "Chan Gunn Pavilion",
-    "CHBE": "Chemical and Biological Engineering Building",
-    "CHEM": "Chemistry",
-    "CEME": "Civil and Mechanical Engineering",
-    "MINL": "Coal and Mineral Processing Laboratory",
-    "COPP": "D.H. Copp",
-    "DLAM": "David Lam Management Research Centre",
-    "DSOM": "Dorothy Somerset Studio",
-    "KENN": "Douglas Kenny",
-    "EOS": "Earth and Ocean Sciences",
-    "ESB": "Earth Sciences Building",
-    "ESC": "Engineering Student Centre",
-    "FNH": "Food, Nutrition and Health",
-    "FSC": "Forest Sciences Centre",
-    "FORW": "Frank Forward",
-    "LASR": "Frederic Lasserre",
-    "FRWO": "Frederic Wood Theatre",
-    "FRDM": "Friedman Building",
-    "GEOG": "Geography",
-    "CUNN": "George Cunningham",
-    "HEBB": "Hebb",
-    "HENN": "Hennings",
-    "ANGU": "Henry Angus",
-    "DMP": "Hugh Dempster Pavilion",
-    "IRSC": "Indian Residential School History and Dialogue Centre",
-    "ICCS": "Institute for Computing (ICICS/CS)",
-    "IBLC": "Irving K Barber Learning Centre",
-    "MCDN": "J.B. MacDonald",
-    "SOWK": "Jack Bell Building for the School of Social Work",
-    "LAX": "Landscape Architecture Annex",
-    "LSK": "Leonard S. Klinck (also known as CSCI)",
-    "PARC": "Library PARC@UBC",
-    "LSC": "Life Sciences Centre",
-    "MCLD": "MacLeod",
-    "MCML": "MacMillan",
-    "MATH": "Mathematics",
-    "MATX": "Mathematics Annex",
-    "MEDC": "Medical Sciences Block C",
-    "MSL": "Michael Smith Laboratories",
-    "MUSC": "Music",
-    "SCRF": "Neville Scarfe",
-    "AUDI": "Old Auditorium",
-    "IRC": "P. A. Woodward Instructional Resources Centre",
-    "PHRM": "Pharmaceutical Sciences Building",
-    "PONE": "Ponderosa Annex E",
-    "PONF": "Ponderosa Office Annex F",
-    "OSB2": "Robert F. Osborne Centre",
-    "SRC": "Student Recreation Centre",
-    "BRIM": "The Brimacombe Building",
-    "UCEN": "The Leon and Thea Koerner University Centre",
-    "TFPB": "Theatre-Film Production Building",
-    "YURT": "UBC Farm - Yurt",
-    "KPAV": "UBC Hospital - Koerner Pavilion",
-    "MGYM": "War Memorial Gymnasium",
-    "EDC": "Wayne and William White Engineering Design Centre",
-    "WESB": "Wesbrook",
-    "WMAX": "West Mall Annex",
-    "SWNG": "West Mall Swing Space"
+    "ALRD": "1822 East Mall",
+    "ANSO": "6303 North West Marine Drive",
+    "AERL": "2202 Main Mall",
+    "ACEN": "1871 West Mall",
+    "AUDX": "1924 West Mall",
+    "BINN": "6373 University Boulevard",
+    "BIOL": "6270 University Boulevard",
+    "BUCH": "1866 Main Mall",
+    "BUTO": "1873 East Mall",
+    "CCM": "4145 Wesbrook Mall",
+    "CIRS": "2260 West Mall",
+    "CHAN": "6265 Crescent Road",
+    "GUNN": "2553 Wesbrook Mall",
+    "CHBE": "2360 East Mall V6T 1Z3",
+    "CHEM": "2036 Main Mall",
+    "CEME": "6250 Applied Science Lane",
+    "MINL": "2332 West Mall",
+    "COPP": "2146 Health Sciences Mall",
+    "DLAM": "2033 Main Mall V6T 1Z2",
+    "DSOM": "6361 University Blvd",
+    "KENN": "2136 West Mall",
+    "EOS": "6339 Stores Road",
+    "ESB": "2207 Main Mall",
+    "ESC": "2335 Engineering Road",
+    "FNH": "2205 East Mall",
+    "FSC": "2424 Main Mall",
+    "FORW": "6350 Stores Road",
+    "LASR": "6333 Memorial Road",
+    "FRWO": "6354 Crescent Road",
+    "FRDM": "2177 Wesbrook Mall V6T 1Z3",
+    "GEOG": "1984 West Mall",
+    "CUNN": "2146 East Mall",
+    "HEBB": "2045 East Mall",
+    "HENN": "6224 Agricultural Road",
+    "ANGU": "2053 Main Mall",
+    "DMP": "6245 Agronomy Road V6T 1Z4",
+    "IRSC": "1985 Learners' Walk",
+    "ICCS": "2366 Main Mall",
+    "IBLC": "1961 East Mall V6T 1Z1",
+    "MCDN": "2199 West Mall",
+    "SOWK": "2080 West Mall",
+    "LAX": "2371 Main Mall",
+    "LSK": "6356 Agricultural Road",
+    "PARC": "6049 Nurseries Road",
+    "LSC": "2350 Health Sciences Mall",
+    "MCLD": "2356 Main Mall",
+    "MCML": "2357 Main Mall",
+    "MATH": "1984 Mathematics Road",
+    "MATX": "1986 Mathematics Road",
+    "MEDC": "2176 Health Sciences Mall",
+    "MSL": "2185 East Mall",
+    "MUSC": "6361 Memorial Road",
+    "SCRF": "2125 Main Mall",
+    "AUDI": "6344 Memorial Road",
+    "IRC": "2194 Health Sciences Mall",
+    "PHRM": "2405 Wesbrook Mall",
+    "PONE": "2034 Lower Mall",
+    "PONF": "2008 Lower Mall",
+    "OSB2": "6108 Thunderbird Boulevard",
+    "SRC": "6000 Student Union Blvd",
+    "BRIM": "2355 East Mall",
+    "UCEN": "6331 Crescent Road V6T 1Z1",
+    "TFPB": "6358 University Blvd, V6T 1Z4",
+    "YURT": "3465 Ross Drive",
+    "KPAV": "2211 Wesbrook Mall",
+    "MGYM": "6081 University Blvd",
+    "EDC": "2345 East Mall",
+    "WESB": "6174 University Boulevard",
+    "WMAX": "1933 West Mall",
+    "SWNG": "2175 West Mall V6T 1Z4"
   };
+  
 
   const abbrev = location.trim().split("-")[0];
  
 
   return buildingMap[abbrev]; 
-
-
-
   
 }
 
+
+export async function changeWaypoint(identifier : string, formData : FormData) {
+
+  const place = formData.get('place'); 
+  const cookieStore = await cookies();
+
+  cookieStore.set(identifier, JSON.stringify(place), { maxAge: 604800, httpOnly: true, sameSite: "strict" });
+}
 
 
