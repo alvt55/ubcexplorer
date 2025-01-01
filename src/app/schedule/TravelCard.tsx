@@ -9,6 +9,8 @@ export default async function TravelCard({ startObj, endObj }: {
 
 
 
+    const endTimeOfFirst = startObj.time.trim().split("-")[1]; 
+    const startTimeOfSecond = endObj.time.trim().split("-")[0]; 
 
     const startBuildingName = await getBuildingAddress(startObj.location);
     const endBuildingName = await getBuildingAddress(endObj.location);
@@ -41,7 +43,7 @@ export default async function TravelCard({ startObj, endObj }: {
 
 
             {/* <h1>From {startObj.section} to {endObj.section}</h1> -- use a timeline aesthetic */}
-            <h1>From {startObj.location} to {endObj.location}</h1>
+            <h1>From {startObj.location} {endTimeOfFirst} to {endObj.location} {startTimeOfSecond}</h1>
             <iframe
                 width="600"
                 height="450"

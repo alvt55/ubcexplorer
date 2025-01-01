@@ -4,7 +4,8 @@ import { CourseObj } from "@/lib/definitions";
 import CourseCard from "./CourseCard";
 import Filters from "./Filters";
 
- 
+
+
 export default async function Page(props: {
   searchParams?: Promise<{
     day?: string;
@@ -25,8 +26,8 @@ export default async function Page(props: {
   }
 
   const searchParams = await props.searchParams;
-  const selectedDay = searchParams?.day || 'Mon'; 
-  const selectedTerm = searchParams?.term || 'Term 1'; 
+  const selectedDay = searchParams?.day || 'Mon';
+  const selectedTerm = searchParams?.term || 'Term 1';
 
 
 
@@ -53,7 +54,7 @@ export default async function Page(props: {
       let startTimeB = b.time.trim().split(". - ")[0].toUpperCase();
       startTimeB = startTimeB.replace(".", "");
 
-      return dateFromObj(startTimeA).getTime() - dateFromObj(startTimeB).getTime(); 
+      return dateFromObj(startTimeA).getTime() - dateFromObj(startTimeB).getTime();
     });
 
     console.log("sorted", sortedObjs);
@@ -70,10 +71,10 @@ export default async function Page(props: {
 
       travelCards.push(
         <>
-        <div key={i}>
-          <CourseCard courseObj={sortedObjs[i - 1]}></CourseCard>
-          <TravelCard startObj={sortedObjs[i - 1]} endObj={sortedObjs[i]}></TravelCard>
-        </div>
+          <div key={i}>
+              <CourseCard courseObj={sortedObjs[i - 1]}></CourseCard>
+              <TravelCard startObj={sortedObjs[i - 1]} endObj={sortedObjs[i]}></TravelCard>
+          </div>
         </>
 
       );
@@ -84,7 +85,7 @@ export default async function Page(props: {
     if (sortedObjs[sortedObjs.length - 1]) {
       travelCards.push(<CourseCard courseObj={sortedObjs[sortedObjs.length - 1]}></CourseCard>)
     }
-  
+
 
     return travelCards;
   }
@@ -97,7 +98,7 @@ export default async function Page(props: {
 
 
     <>
-   
+
       <h1>Schedule</h1>
       <Filters></Filters>
 

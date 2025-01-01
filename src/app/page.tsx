@@ -51,13 +51,12 @@ async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
     const workbook: XLSX.WorkBook = XLSX.read(strippedData, { type: 'array' });
     // console.log('workbook', workbook); 
     const worksheet: XLSX.WorkSheet = workbook.Sheets[workbook.SheetNames[0]];
-    console.log("worksheet", worksheet)
+    // console.log("worksheet", worksheet)
 
     // workbook -> 2d array, each array being a row in the excel file
     const raw_data: Array<Array<string>> = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-    console.log('raw data', raw_data);
+    // console.log('raw data', raw_data);
     const raw_courses = raw_data.slice(3, raw_data.length); // removing column names
-    console.log('raw courses sent to server action', raw_courses);
 
     await createCourseList(raw_courses);
 

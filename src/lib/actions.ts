@@ -4,13 +4,30 @@ import z from 'zod'
 import { redirect } from 'next/navigation';
 import _ from 'lodash'
 import { cookies } from 'next/headers'
-// import { sql } from '@vercel/postgres';
+import { sql } from '@vercel/postgres';
+import { revalidatePath } from 'next/cache';
+import { Response } from './definitions';
  
 
 
+export async function getAllFeedback() {
 
+  try {
+
+    const responses = await sql<Response>`
+    SELECT * FROM responses
+    `
+
+    return responses.rows;
+
+  } catch {
+    throw new Error('Database Error: Failed to retrieve data'); 
+  }
+}
+
+
+// inserts form data into neon connected postgres db 
 export async function submitFeedback(formdata: FormData) {
-
 
     console.log(formdata)
     const FormSchema = z.object({
@@ -33,9 +50,19 @@ export async function submitFeedback(formdata: FormData) {
 
     console.log(audience, rating, comments, date);
 
-    // const db = await
+    try {
 
-    redirect('/')
+      await sql` INSERT INTO responses (audience, rating, comments, date)
+          VALUES (${audience}, ${rating}, ${comments}, ${date}) `
+
+    } catch (err) {
+      throw new Error('Database Error: Failed to send feedback'); 
+    }
+
+
+    revalidatePath('/contact');
+    redirect('/contact')
+    
 }
 
 

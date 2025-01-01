@@ -6,3 +6,10 @@ export type CourseObj = {
     time: string,
     location: string
 }; 
+
+export type Response = {
+    audience: string, 
+    rating: string, 
+    comments: string, 
+    date: string, 
+}
