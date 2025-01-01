@@ -1,5 +1,4 @@
 'use client'
-import { cookies } from 'next/headers';
 import { changeWaypoint } from '@/lib/actions';
 
 export default function Waypoints({ identifier }: { identifier: string }) {

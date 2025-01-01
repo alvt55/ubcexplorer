@@ -34,9 +34,9 @@ export default function Filters() {
     return (
         <div className="flex space-x-2">
 
-            {days.map((day, idx) => {
+            {days.map(day => {
                 return (
-                    <label >
+                    <label key={day}>
                         <input type="radio" name="day" className="hidden peer" onClick={() => changeDay(day)} />
                         <span className="px-4 py-2 bg-gray-200 rounded-lg cursor-pointer peer-checked:bg-blue-500 peer-checked:text-white">
                             {day}

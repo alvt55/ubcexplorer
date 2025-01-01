@@ -2,11 +2,8 @@
 'use client';
 
 
-
 import { submitFeedback } from '@/lib/actions';
 import Link from 'next/link';
-import { useState } from 'react';
-import { FileUploader } from 'react-drag-drop-files';
 
 
 

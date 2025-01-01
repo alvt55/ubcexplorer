@@ -1,8 +1,8 @@
 
 export type CourseObj = {
-    term: String,
-    section: String,
-    daysOfWeek: String,
-    time: String,
-    location: String
+    term: string,
+    section: string,
+    daysOfWeek: string,
+    time: string,
+    location: string
 }; 

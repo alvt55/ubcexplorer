@@ -1,9 +1,5 @@
-
-import { decode } from "punycode";
 import TravelCard from "./TravelCard";
-import { useSearchParams } from "next/navigation";
 import { cookies } from "next/headers";
-import build from "next/dist/build";
 import { CourseObj } from "@/lib/definitions";
 import CourseCard from "./CourseCard";
 import Filters from "./Filters";
@@ -25,7 +21,7 @@ export default async function Page(props: {
 
   if (json) {
     data = JSON.parse(json.value);
-    console.log("data", data)
+    // console.log("data", data)
   }
 
   const searchParams = await props.searchParams;
@@ -46,21 +42,21 @@ export default async function Page(props: {
 
     // console.log("filteredData", filteredData)
 
-    const dateFromObj: any = (str: String) => new Date('1970/01/01 ' + str);
+    const dateFromObj: (str: string) => Date = (str: string) => new Date('1970/01/01 ' + str);
 
 
     // sort course objects by time
-    let sortedObjs: Array<CourseObj> = filteredData.sort((a, b) => {
+    const sortedObjs: Array<CourseObj> = filteredData.sort((a, b) => {
 
       let startTimeA = a.time.trim().split(". - ")[0].toUpperCase();
       startTimeA = startTimeA.replace(".", "");
       let startTimeB = b.time.trim().split(". - ")[0].toUpperCase();
       startTimeB = startTimeB.replace(".", "");
 
-      return dateFromObj(startTimeA) - dateFromObj(startTimeB)
+      return dateFromObj(startTimeA).getTime() - dateFromObj(startTimeB).getTime(); 
     });
 
-    // console.log("sorted", sortedObjs);
+    console.log("sorted", sortedObjs);
 
     const travelCards = [];
 
@@ -74,9 +70,9 @@ export default async function Page(props: {
 
       travelCards.push(
         <>
-        <div>
+        <div key={i}>
           <CourseCard courseObj={sortedObjs[i - 1]}></CourseCard>
-          <TravelCard key={i} startObj={sortedObjs[i - 1]} endObj={sortedObjs[i]}></TravelCard>
+          <TravelCard startObj={sortedObjs[i - 1]} endObj={sortedObjs[i]}></TravelCard>
         </div>
         </>
 

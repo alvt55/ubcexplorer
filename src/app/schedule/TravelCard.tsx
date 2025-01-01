@@ -1,4 +1,4 @@
-import { getFullBuildingName } from "@/lib/actions"
+import { getBuildingAddress } from "@/lib/actions"
 import { CourseObj } from "@/lib/definitions";
 import Waypoints from "./Waypoints";
 import { cookies } from "next/headers";
@@ -8,22 +8,24 @@ export default async function TravelCard({ startObj, endObj }: {
 }) {
 
 
-    const startBuildingName = await getFullBuildingName(startObj.location);
-    const endBuildingName = await getFullBuildingName(endObj.location);
+
+
+    const startBuildingName = await getBuildingAddress(startObj.location);
+    const endBuildingName = await getBuildingAddress(endObj.location);
     const waypointsIdentifier = `${startObj.section.substring(0, 14)} ${endObj.section.substring(0, 14)}`;
 
 
     const cookieStore = await cookies(); 
     const json = cookieStore.get(waypointsIdentifier);
     
-    let waypoint = `ubc+${startBuildingName}`;
+    let waypoint = startBuildingName;
 
     if (json) {
 
         if (JSON.parse(json.value) !== '') {
             waypoint =`ubc+${JSON.parse(json.value)}`;
         } else {
-            waypoint= `ubc+${startBuildingName}`;
+            waypoint= startBuildingName;
         }
         
     }
@@ -45,7 +47,7 @@ export default async function TravelCard({ startObj, endObj }: {
                 height="450"
                 style={{ border: 0 }}
                 referrerPolicy="no-referrer-when-downgrade"
-                src={`https://www.google.com/maps/embed/v1/directions?key=${process.env.GOOGLE_MAPS_APIKEY}&origin=UBC+${startBuildingName}&destination=UBC+${endBuildingName}&mode=walking&waypoints=${waypoint}`}
+                src={`https://www.google.com/maps/embed/v1/directions?key=${process.env.GOOGLE_MAPS_APIKEY}&origin=${startBuildingName}&destination=${endBuildingName}&mode=walking&waypoints=${waypoint}`}
                 allowFullScreen
             ></iframe>
 

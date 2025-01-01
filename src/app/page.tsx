@@ -4,21 +4,27 @@ import XLSX from 'xlsx'
 
 import JSZip from "jszip";
 
-import { createCourseList, getFullBuildingName } from '@/lib/actions'
+import { createCourseList } from '@/lib/actions'
+
 
 
 export default function Page() {
 
 
 
+// TODO: fix this
+async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
 
-  async function handleSubmit(e: any) {
+
     e.preventDefault();
 
-    const fileInput = e.target.elements.fileupload;
-    const file = fileInput.files[0];
-    // console.log('file input', file); 
+    const formData = new FormData(e.target as HTMLFormElement);
+    const file = formData.get("fileupload") as File;
+    // const fileInput = e.target.elements.fileupload;
+    // const file = fileInput.files[0];
 
+    // console.log(fileUpload)
+    // console.log(file)
 
 
     if (!file) {
@@ -31,8 +37,8 @@ export default function Page() {
       // converts raw bytes to ArrayBuffer - obj that represents file data
       data = await file.arrayBuffer();
       // console.log('data in arrayBuffer format', data); 
-    } catch (e: any) {
-      throw new Error(`Data Error: ${e.message}`);
+    } catch {
+      throw new Error("Data could not be parsed");
     }
 
     console.log('data before rezip', data);
@@ -48,7 +54,7 @@ export default function Page() {
     console.log("worksheet", worksheet)
 
     // workbook -> 2d array, each array being a row in the excel file
-    const raw_data: Array<Array<String>> = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    const raw_data: Array<Array<string>> = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
     console.log('raw data', raw_data);
     const raw_courses = raw_data.slice(3, raw_data.length); // removing column names
     console.log('raw courses sent to server action', raw_courses);
@@ -71,9 +77,6 @@ export default function Page() {
         <input type="file" name="fileupload" accept=".xlsx, .xls"></input>
         <button type="submit">Get my routes</button>
       </form>
-
-
-
 
 
 

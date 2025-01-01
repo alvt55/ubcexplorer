@@ -4,7 +4,7 @@ import { CourseObj } from "@/lib/definitions";
 export default function CourseCard({courseObj} : {courseObj : CourseObj}) {
 
 
-    const {term, section, daysOfWeek, time, location} = courseObj;
+    const { section, time, location} = courseObj;
 
     return(
 

@@ -2,12 +2,11 @@
 
 import z from 'zod'
 import { redirect } from 'next/navigation';
-import { CourseObj } from './definitions';
 import _ from 'lodash'
-import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers'
-import puppeteer from 'puppeteer';
-import build from 'next/dist/build';
+// import { sql } from '@vercel/postgres';
+ 
+
 
 
 export async function submitFeedback(formdata: FormData) {
@@ -34,13 +33,15 @@ export async function submitFeedback(formdata: FormData) {
 
     console.log(audience, rating, comments, date);
 
+    // const db = await
+
     redirect('/')
 }
 
 
 
   // creates an array of parsed course objects given an array of raw objects from sheet_to_json
-export async function createCourseList(rawCourses: Array<Array<String>>) {
+export async function createCourseList(rawCourses: Array<Array<string>>) {
 
  
 
@@ -64,7 +65,7 @@ export async function createCourseList(rawCourses: Array<Array<String>>) {
     //   ''
     //   "2025-02-24 - 2025-04-07 | Mon Wed | 11:00 a.m. - 12:00 p.m. | BUCH-Floor 1-Room A104"
     //  ]
-    let meetingTimes = arr[7].trim().split('\n');
+    const meetingTimes = arr[7].trim().split('\n');
 
  
 
@@ -117,8 +118,9 @@ export async function createCourseList(rawCourses: Array<Array<String>>) {
 }
 
 
-// TODO: use places api instead c
-export async function getFullBuildingName(location : String) : Promise<String> {
+
+
+export async function getBuildingAddress(location : string) : Promise<string> {
 
   const buildingMap: Record<string, string> = {
     "ALRD": "1822 East Mall",
@@ -207,7 +209,7 @@ export async function changeWaypoint(identifier : string, formData : FormData) {
   const place = formData.get('place'); 
   const cookieStore = await cookies();
 
-  cookieStore.set(identifier, JSON.stringify(place), { maxAge: 604800, httpOnly: true, sameSite: "strict" });
+  cookieStore.set(identifier, JSON.stringify(place), { maxAge: 86400, httpOnly: true, sameSite: "strict" });
 }
 
 
