@@ -10,7 +10,9 @@ export default async function Page() {
     return (
 
         responses.reverse().map((r) => {
-            return <Row response = {r}></Row>
+            
+            const key = r.comments.concat(r.rating);
+            return <Row key={key} response = {r}></Row>
         })
     )
 

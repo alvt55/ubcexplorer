@@ -55,7 +55,7 @@ export async function submitFeedback(formdata: FormData) {
       await sql` INSERT INTO responses (audience, rating, comments, date)
           VALUES (${audience}, ${rating}, ${comments}, ${date}) `
 
-    } catch (err) {
+    } catch {
       throw new Error('Database Error: Failed to send feedback'); 
     }
 
