@@ -9,10 +9,16 @@ export default {
   theme: {
     extend: {
       colors: {
+        hoverblue: "var(--hoverblue)",
+        blue: "var(--blue)",
+        red: "var(--red)",
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
     },
+    container: {
+      center: true,
+    }
   },
   plugins: [],
 } satisfies Config;

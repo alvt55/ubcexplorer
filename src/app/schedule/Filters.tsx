@@ -32,37 +32,42 @@ export default function Filters() {
 
 
     return (
-        <div className="flex space-x-2">
-
-            {days.map(day => {
-                return (
-                    <label key={day}>
-                        <input type="radio" name="day" className="hidden peer" onClick={() => changeDay(day)} />
-                        <span className="px-4 py-2 bg-gray-200 rounded-lg cursor-pointer peer-checked:bg-blue-500 peer-checked:text-white">
-                            {day}
-                        </span>
-                    </label>
-                )
-            })}
+        <div className="flex flex-col space-y-5 items-center">
 
 
-
-            <div>
+            <div className='mb-2'>
 
                 <label>
                     <input type="radio" name="term" className="hidden peer" onClick={() => changeTerm("Term 1")} />
-                    <span className="px-4 py-2 bg-gray-200 rounded-lg cursor-pointer peer-checked:bg-blue-500 peer-checked:text-white">
-                        Term 1
+                    <span className="px-4 py-1 bg-blue cursor-pointer  peer-checked:bg-hoverblue ">                        Term 1
                     </span>
                 </label>
                 <label>
                     <input type="radio" name="term" className="hidden peer" onClick={() => changeTerm("Term 2")} />
-                    <span className="px-4 py-2 bg-gray-200 rounded-lg cursor-pointer peer-checked:bg-blue-500 peer-checked:text-white">
-                        Term 2
+                    <span className="px-4 py-1 bg-blue  cursor-pointer  peer-checked:bg-hoverblue ">                        Term 2
                     </span>
                 </label>
             </div>
-            {/* TODO: implement summer term detection */}
+
+
+            <div className='text-center w-full'>
+
+
+                {days.map(day => {
+                    return (
+                        <label key={day} className='w-full'>
+                            <input type="radio" name="day" className="hidden peer" onClick={() => changeDay(day)} />
+                            <span className="w-8/12 text-center mb-2 inline-block bg-blue rounded-md cursor-pointer peer-checked:bg-hoverblue ">
+                                {day}
+                            </span>
+                        </label>
+                    )
+                })}
+            </div>
+
+
+
+
 
         </div>
 

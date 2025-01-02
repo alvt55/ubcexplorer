@@ -70,12 +70,12 @@ export default async function Page(props: {
 
 
       travelCards.push(
-        <>
-          <div key={i}>
-              <CourseCard courseObj={sortedObjs[i - 1]}></CourseCard>
-              <TravelCard startObj={sortedObjs[i - 1]} endObj={sortedObjs[i]}></TravelCard>
-          </div>
-        </>
+
+        <div key={i}>
+          <CourseCard courseObj={sortedObjs[i - 1]}></CourseCard>
+          <TravelCard startObj={sortedObjs[i - 1]} endObj={sortedObjs[i]}></TravelCard>
+        </div>
+
 
       );
     }
@@ -97,17 +97,25 @@ export default async function Page(props: {
   return (
 
 
-    <>
-
-      <h1>Schedule</h1>
-      <Filters></Filters>
-
-      {generateTravelCards(selectedDay, selectedTerm)}
+    <div className="flex justify-center pt-5">
 
 
+      <section className="grow-0 space-y-7">
 
+        <header className='text-center space-y-3 px-10'>
+          <h1 className="text-xl">Schedule</h1>
+          <p>View and filter your schedule here.</p>
+        </header>
 
+        <Filters></Filters>
 
-    </>
+      </section >
+
+      <section className="flex-grow align-center">
+
+        {generateTravelCards(selectedDay, selectedTerm)}
+      </section>
+
+    </div>
   );
 }

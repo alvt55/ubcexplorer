@@ -5,29 +5,29 @@ import XLSX from 'xlsx'
 import JSZip from "jszip";
 
 import { createCourseList } from '@/lib/actions'
+import { useState } from 'react';
 
 
 
 export default function Page() {
 
+  const [error, setError] = useState<string>("");  
 
 
 // TODO: fix this
 async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
 
+  
 
     e.preventDefault();
+    setError('')
 
     const formData = new FormData(e.target as HTMLFormElement);
     const file = formData.get("fileupload") as File;
-    // const fileInput = e.target.elements.fileupload;
-    // const file = fileInput.files[0];
-
-    // console.log(fileUpload)
-    // console.log(file)
 
 
-    if (!file) {
+    if (!file.name) {
+      setError('No File Selected')
       throw new Error('No File selected');
     }
 
@@ -38,6 +38,7 @@ async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
       data = await file.arrayBuffer();
       // console.log('data in arrayBuffer format', data); 
     } catch {
+      setError('Excel file could not be processed');
       throw new Error("Data could not be parsed");
     }
 
@@ -68,14 +69,27 @@ async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
 
   return (
 
-    <div>
+    <div className="flex items-center justify-center h-screen">
 
+    <div className='flex-col  space-y-7'>
+
+      <header className='text-center space-y-3 px-10'>
+        <h1 className="text-5xl">UBC Explorer</h1>
+        <p>Covert Workday Excel files into streamlined schedules to help you find your classrooms.</p>
+      </header>
 
       <form onSubmit={handleSubmit}>
-        <label htmlFor="fileupload">Upload files here</label>
+        <main className='flex outline-double outline-blue-400 p-6 items-center justify-center rounded-lg flex-'>
+
+        <label htmlFor="fileupload"></label>
         <input type="file" name="fileupload" accept=".xlsx, .xls"></input>
-        <button type="submit">Get my routes</button>
+        <button type="submit" className='rounded-lg bg-blue p-3'>Get My Schedule</button>
+        </main>
+        
       </form>
+
+      <h2 className='text-center text-red'>{error}</h2>
+    </div>
 
 
 
