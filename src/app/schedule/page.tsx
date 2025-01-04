@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { CourseObj } from "@/lib/definitions";
 import CourseCard from "./CourseCard";
 import Filters from "./Filters";
+import Link from "next/link";
 
 
 
@@ -71,7 +72,7 @@ export default async function Page(props: {
 
       travelCards.push(
 
-        <div key={i}>
+        <div key={i} className="mb-16 justify-items-center">
           <CourseCard courseObj={sortedObjs[i - 1]}></CourseCard>
           <TravelCard startObj={sortedObjs[i - 1]} endObj={sortedObjs[i]}></TravelCard>
         </div>
@@ -83,7 +84,12 @@ export default async function Page(props: {
     // including CourseCard for last course 
 
     if (sortedObjs[sortedObjs.length - 1]) {
-      travelCards.push(<CourseCard courseObj={sortedObjs[sortedObjs.length - 1]}></CourseCard>)
+      travelCards.push(
+        <div className="justify-items-center" key={"last"}>
+
+          <CourseCard courseObj={sortedObjs[sortedObjs.length - 1]}></CourseCard>
+        </div>
+      )
     }
 
 
@@ -97,24 +103,30 @@ export default async function Page(props: {
   return (
 
 
-    <div className="flex justify-center pt-5">
+
+    <div className="flex justify-center p-4 w-screen h-fit">
 
 
-      <section className="grow-0 space-y-7">
+      {/* TODO: make this stick to top */}
+      <section className="grow-5 space-y-12 outline h-fit rounded-xl p-4 top-4 sticky">
 
         <header className='text-center space-y-3 px-10'>
-          <h1 className="text-xl">Schedule</h1>
-          <p>View and filter your schedule here.</p>
+          <h1 className="text-2xl">Schedule</h1>
+          <p>View and filter your schedule here. </p>
+          <p>Click <Link href="/" className="underline text-blue">here</Link> to go back.</p>
         </header>
 
         <Filters></Filters>
 
       </section >
 
-      <section className="flex-grow align-center">
 
-        {generateTravelCards(selectedDay, selectedTerm)}
-      </section>
+
+     
+        <section className="flex-grow justify-items-center w-full">
+
+          {generateTravelCards(selectedDay, selectedTerm)}
+        </section>
 
     </div>
   );

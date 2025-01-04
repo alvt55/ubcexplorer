@@ -38,13 +38,15 @@ export default function Filters() {
             <div className='mb-2'>
 
                 <label>
-                    <input type="radio" name="term" className="hidden peer" onClick={() => changeTerm("Term 1")} />
-                    <span className="px-4 py-1 bg-blue cursor-pointer  peer-checked:bg-hoverblue ">                        Term 1
+                    <input type="radio" name="term" className="hidden peer " onClick={() => changeTerm("Term 1")} />
+                    <span className="px-4 py-1  cursor-pointer  peer-checked:bg-hoverblue hover:opacity-80">                        
+                        Term 1
                     </span>
                 </label>
                 <label>
                     <input type="radio" name="term" className="hidden peer" onClick={() => changeTerm("Term 2")} />
-                    <span className="px-4 py-1 bg-blue  cursor-pointer  peer-checked:bg-hoverblue ">                        Term 2
+                    <span className="px-4 py-1  cursor-pointer  peer-checked:bg-hoverblue hover:opacity-80">                        
+                        Term 2
                     </span>
                 </label>
             </div>
@@ -57,7 +59,7 @@ export default function Filters() {
                     return (
                         <label key={day} className='w-full'>
                             <input type="radio" name="day" className="hidden peer" onClick={() => changeDay(day)} />
-                            <span className="w-8/12 text-center mb-2 inline-block bg-blue rounded-md cursor-pointer peer-checked:bg-hoverblue ">
+                            <span className="w-8/12 text-center mb-2 inline-block outline outline-1 rounded-md cursor-pointer peer-checked:bg-hoverblue hover:opacity-80 ">
                                 {day}
                             </span>
                         </label>

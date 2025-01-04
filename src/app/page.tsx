@@ -14,7 +14,8 @@ export default function Page() {
   const [error, setError] = useState<string>("");  
 
 
-// TODO: fix this
+
+
 async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
 
   
@@ -69,26 +70,31 @@ async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
 
   return (
 
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen w-screen">
 
-    <div className='flex-col  space-y-7'>
+    <div className='flex-col space-y-7'>
 
-      <header className='text-center space-y-3 px-10'>
+      <header className='text-center space-y-3 px-32'>
         <h1 className="text-5xl">UBC Explorer</h1>
         <p>Covert Workday Excel files into streamlined schedules to help you find your classrooms.</p>
       </header>
 
       <form onSubmit={handleSubmit}>
-        <main className='flex outline-double outline-blue-400 p-6 items-center justify-center rounded-lg flex-'>
+        <main className='flex outline outline-blue p-7 items-center justify-center rounded-lg '>
+        
 
         <label htmlFor="fileupload"></label>
         <input type="file" name="fileupload" accept=".xlsx, .xls"></input>
-        <button type="submit" className='rounded-lg bg-blue p-3'>Get My Schedule</button>
+ 
+        <button type="submit" className="text-center rounded-lg bg-gradient-to-r from-cyan-500 to-blue w-1/5 h-9 hover:opacity-80">Get My Schedule</button>
+       
         </main>
         
       </form>
 
       <h2 className='text-center text-red'>{error}</h2>
+
+      
     </div>
 
 
