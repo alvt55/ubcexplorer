@@ -11,14 +11,14 @@ import { useState } from 'react';
 
 export default function Page() {
 
-  const [error, setError] = useState<string>("");  
+  const [error, setError] = useState<string>("");
+  const [fileName, setFileName] = useState<string | null>(null);
 
 
 
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 
-async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
 
-  
 
     e.preventDefault();
     setError('')
@@ -67,38 +67,80 @@ async function handleSubmit(e : React.FormEvent<HTMLFormElement>) {
   }
 
 
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFileName(file.name); // Update state with the selected file name
+      setError('');
+    } else {
+      setFileName(null);
+    }
+  }
+
 
   return (
 
+
+
+
     <div className="flex items-center justify-center h-screen w-screen">
 
-    <div className='flex-col space-y-7'>
+      <div className='flex-col space-y-7 w-2/3'>
 
-      <header className='text-center space-y-3 px-32'>
-        <h1 className="text-5xl">UBC Explorer</h1>
-        <p>Covert Workday Excel files into streamlined schedules to help you find your classrooms.</p>
-      </header>
+        <header className='text-center space-y-3 '>
+          <h1 className="text-5xl">UBC Explorer</h1>
+          <p>Covert Workday Excel files into streamlined schedules to help you find your classrooms.</p>
+        </header>
+        <form onSubmit={handleSubmit}>
+          <main className="flex flex-col md:flex-row items-center gap-y-4 p-7 justify-evenly rounded-lg">
+            <label
+              htmlFor="fileupload"
+              className="cursor-pointer inline-block text-center bg-gray-200 text-black px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-300"
+            >
+              Choose File
+            </label>
+            <input
+              type="file"
+              name="fileupload"
+              id="fileupload"
+              accept=".xlsx, .xls"
+              className="hidden"
+              onChange={e => handleFileChange(e)}
+            />
 
-      <form onSubmit={handleSubmit}>
-        <main className='flex outline outline-blue p-7 items-center justify-center rounded-lg '>
-        
 
-        <label htmlFor="fileupload"></label>
-        <input type="file" name="fileupload" accept=".xlsx, .xls"></input>
- 
-        <button type="submit" className="text-center rounded-lg bg-gradient-to-r from-cyan-500 to-blue w-1/5 h-9 hover:opacity-80">Get My Schedule</button>
-       
-        </main>
-        
-      </form>
 
-      <h2 className='text-center text-red'>{error}</h2>
+            <button
+              type="submit"
+              className="text-center rounded-lg bg-gradient-to-r from-cyan-500 to-blue w-fit px-4 py-2 hover:opacity-80"
+            >
+              Get My Schedule
+            </button>
+          </main>
+        </form>
 
-      
+
+
+
+
+      </div>
+
+      <section className='bottom-1/4 absolute'>
+
+        <p className='text-center'>File chosen: {fileName || 'none'}</p>
+        {error && <h2 className='text-center text-red absolute'>{error}</h2>}
+      </section>
+
+
     </div>
 
 
 
-    </div>
+
+
+
+
+
+
   );
 }
