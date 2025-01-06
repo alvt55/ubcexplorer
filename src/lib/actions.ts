@@ -76,7 +76,7 @@ export async function createCourseList(rawCourses: Array<Array<string>>) {
 
    
 
-    if (arr[6].includes("Online")) { // removes any courses that are online
+    if (arr[6].includes("Online") || !arr[7]) { // removes any courses that are online
       // console.log('this is an online course', arr); 
       return [];
     }
