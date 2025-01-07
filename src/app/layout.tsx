@@ -23,8 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
       <body
-        className={`${roboto.className} antialiased max-w-screen overflow-x-hidden`}
+        className={`${roboto.className} antialiased max-w-screen overflow-x-hidden w-screen h-screen`}
       >
         {children}
         <Analytics />

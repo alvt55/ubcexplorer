@@ -75,8 +75,8 @@ export async function createCourseList(rawCourses: Array<Array<string>>) {
   const courses = rawCourses.flatMap((arr) => {
 
    
-
-    if (arr[6].includes("Online")) { // removes any courses that are online
+    // removes any courses without meeting times
+    if (arr[6].includes("Online") || !arr[7]) { // removes any courses that are online
       // console.log('this is an online course', arr); 
       return [];
     }
