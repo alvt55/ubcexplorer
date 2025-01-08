@@ -97,9 +97,6 @@ export async function createCourseList(rawCourses: Array<Array<string>>) {
     //  ]
     const meetingTimes = arr[7].trim().split('\n');
 
- 
-
-
     // for each meeting time, creates new course object
     // 
     // example: 
