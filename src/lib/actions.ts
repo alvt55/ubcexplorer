@@ -7,6 +7,7 @@ import { cookies } from 'next/headers'
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { Response } from './definitions';
+
  
 
 
@@ -32,6 +33,7 @@ export async function submitFeedback(formdata: FormData) {
     console.log(formdata)
     const FormSchema = z.object({
         audience: z.string(),
+        email: z.string(),
         rating: z.string(),
         comments: z.string(),
         date: z.string()
@@ -39,28 +41,29 @@ export async function submitFeedback(formdata: FormData) {
 
     const CreateFeedback = FormSchema.omit({ date: true });
 
-    const { audience, rating, comments } = CreateFeedback.parse({
+    const { audience, email, rating, comments } = CreateFeedback.parse({
         audience: formdata.get('audience'),
+        email: formdata.get('email'),
         rating: formdata.get('rating'),
         comments: formdata.get('comments'),
     });
 
     const date = new Date().toISOString().split('T')[0];
 
+    console.log(audience, email, rating, comments);
 
-    console.log(audience, rating, comments, date);
 
     try {
 
-      await sql` INSERT INTO responses (audience, rating, comments, date)
-          VALUES (${audience}, ${rating}, ${comments}, ${date}) `
+      await sql` INSERT INTO feedback (audience, email, rating, comments, date)
+          VALUES (${audience}, ${email}, ${rating}, ${comments}, ${date}) `
 
     } catch {
       throw new Error('Database Error: Failed to send feedback'); 
     }
 
 
-    revalidatePath('/contact');
+    revalidatePath('/');
     redirect('/contact')
     
 }

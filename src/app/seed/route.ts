@@ -1,5 +1,5 @@
 import { db } from '@vercel/postgres';
-import { responses } from '@/lib/seed_data'
+import { feedback } from '@/lib/seed_data'
 
 const client = await db.connect();
 
@@ -8,23 +8,24 @@ const client = await db.connect();
 async function seed() {
 
     await client.sql`
-    CREATE TABLE IF NOT EXISTS responses
+    CREATE TABLE IF NOT EXISTS feedback
     (audience VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
     rating VARCHAR(255) NOT NULL,
     comments VARCHAR(255) NOT NULL,
     date VARCHAR(255) NOT NULL
     );
 `;
 
-    const insertedResponses = await Promise.all(
-        responses.map(r =>
+    const insertedFeedback = await Promise.all(
+        feedback.map(r =>
             client.sql`
-        INSERT INTO responses (audience, rating, comments, date)
-        VALUES (${r.audience}, ${r.rating}, ${r.comments}, ${r.date}) 
+        INSERT INTO feedback (audience, email, rating, comments, date)
+        VALUES (${r.audience}, ${r.email}, ${r.rating}, ${r.comments}, ${r.date}) 
         `
         ));
 
-    return insertedResponses;
+    return insertedFeedback;
 }
 
 export async function GET() {

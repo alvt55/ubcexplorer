@@ -114,6 +114,7 @@ export default async function Page(props: {
           <h1 className="text-2xl">Schedule</h1>
           <p>View and filter your schedule here. </p>
           <p>Click <Link href="/" className="underline text-blue">here</Link> to go back.</p>
+          <Link href="/contact" className="underline text-blue">Provide Feedback Here</Link>
         </header>
 
         <Filters></Filters>
