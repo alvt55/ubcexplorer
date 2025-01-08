@@ -6,6 +6,7 @@ import JSZip from "jszip";
 
 import { createCourseList } from '@/lib/actions'
 import { useState } from 'react';
+import Popup from './popup';
 
 
 
@@ -84,6 +85,7 @@ export default function Page() {
 
 
     <div className="flex items-center justify-center h-screen w-screen">
+      <Popup></Popup>
 
       <div className='flex-col space-y-7 w-2/3'>
 
