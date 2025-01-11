@@ -17,7 +17,7 @@ export default function Popup() {
         <>
             {open ?
 
-                (<aside className="absolute flex flex-col w-5/6 h-2/3 justify-around text-center outline outline-blue p-4 rounded-lg bg-background z-10">
+                (<aside className="absolute flex flex-col w-5/6 h-screen  justify-around text-center outline outline-blue p-4 rounded-lg bg-background z-10">
 
 
                     <header className="space-y-3">
@@ -38,7 +38,7 @@ export default function Popup() {
                     <section className="space-y-8">
 
                         <p>
-                            Please download your Workday schedule excel filethrough <b>View My Courses</b></p>
+                            Please download your Workday schedule excel file through <b>View My Courses</b></p>
                        
 
 
@@ -49,6 +49,8 @@ export default function Popup() {
 
                             <Image src="/excelexport.png" layout="intrinsic" width={400} height={100} alt="picture of excel export on UBC Workday"></Image>
                         </section>
+
+                        <p>You can also test the website using a <b>sample schedule</b>, just click the button at the bottom.</p>
 
 
 

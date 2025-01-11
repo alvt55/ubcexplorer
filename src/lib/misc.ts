@@ -1,24 +1,11 @@
+'use server'
 
-export const feedback = [
-    {
-        audience: "student",
-        email: "test@gmail.com",
-        rating: "5", 
-        comments: "very good!",
-        date: "2018-09-10"
-    },
+import { cookies } from 'next/headers'
 
-    {
-        audience: "visitor",
-        email: "test2@gmail.com",
-        rating: "3", 
-        comments: "could use some work",
-        date: "2018-09-10"
-    }
-]
+// example for users to preview product 
+export async function testCreateCourseList() {
 
-export const testCourses = [
-    {
+    const testCourseList = [{
       term: 'Term 2 (UBC-V)',
       section: 'CPSC_V 213-204 - Introduction to Computer Systems',
       daysOfWeek: 'Mon Wed Fri',
@@ -88,4 +75,12 @@ export const testCourses = [
       time: '11:00 a.m. - 12:00 p.m.',
       location: 'ICCS-Floor 3-Room X350'
     }
-  ]
+    ];
+  
+  
+    const cookieStore = await cookies();
+    cookieStore.set("COURSE_OBJS", JSON.stringify(testCourseList), { maxAge: 604800, httpOnly: true, sameSite: "strict" });
+    // redirect('/schedule');
+  
+  
+  }

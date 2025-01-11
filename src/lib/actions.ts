@@ -8,7 +8,7 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { Response } from './definitions';
 
- 
+
 
 
 export async function getAllFeedback() {
@@ -22,7 +22,7 @@ export async function getAllFeedback() {
     return responses.rows;
 
   } catch {
-    throw new Error('Database Error: Failed to retrieve data'); 
+    throw new Error('Database Error: Failed to retrieve data');
   }
 }
 
@@ -30,54 +30,56 @@ export async function getAllFeedback() {
 // inserts form data into neon connected postgres db 
 export async function submitFeedback(formdata: FormData) {
 
-    console.log(formdata)
-    const FormSchema = z.object({
-        audience: z.string(),
-        email: z.string(),
-        rating: z.string(),
-        comments: z.string(),
-        date: z.string()
-    });
+  console.log(formdata)
+  const FormSchema = z.object({
+    audience: z.string(),
+    email: z.string(),
+    rating: z.string(),
+    comments: z.string(),
+    date: z.string()
+  });
 
-    const CreateFeedback = FormSchema.omit({ date: true });
+  const CreateFeedback = FormSchema.omit({ date: true });
 
-    const { audience, email, rating, comments } = CreateFeedback.parse({
-        audience: formdata.get('audience'),
-        email: formdata.get('email'),
-        rating: formdata.get('rating'),
-        comments: formdata.get('comments'),
-    });
+  const { audience, email, rating, comments } = CreateFeedback.parse({
+    audience: formdata.get('audience'),
+    email: formdata.get('email'),
+    rating: formdata.get('rating'),
+    comments: formdata.get('comments'),
+  });
 
-    const date = new Date().toISOString().split('T')[0];
+  const date = new Date().toISOString().split('T')[0];
 
-    console.log(audience, email, rating, comments);
+  console.log(audience, email, rating, comments);
 
 
-    try {
+  try {
 
-      await sql` INSERT INTO feedback (audience, email, rating, comments, date)
+    await sql` INSERT INTO feedback (audience, email, rating, comments, date)
           VALUES (${audience}, ${email}, ${rating}, ${comments}, ${date}) `
 
-    } catch {
-      throw new Error('Database Error: Failed to send feedback'); 
-    }
+  } catch {
+    throw new Error('Database Error: Failed to send feedback');
+  }
 
 
-    revalidatePath('/');
-    redirect('/contact')
-    
+  revalidatePath('/');
+  redirect('/contact')
+
 }
 
 
 
-  // creates an array of parsed course objects given an array of raw objects from sheet_to_json
+// creates an array of parsed course objects given an array of raw objects from sheet_to_json
 export async function createCourseList(rawCourses: Array<Array<string>>) {
 
- 
+  console.log("hello"); 
+
 
   const courses = rawCourses.flatMap((arr) => {
 
-   
+
+
     // removes any courses without meeting times
     if (arr[6].includes("Online") || !arr[7]) { // removes any courses that are online
       // console.log('this is an online course', arr); 
@@ -123,31 +125,42 @@ export async function createCourseList(rawCourses: Array<Array<string>>) {
         section: arr[4],
         daysOfWeek: dayAndTime[1],
         time: dayAndTime[2],
-        location: dayAndTime[3] 
+        location: dayAndTime[3]
 
       }
     })
 
-   return _.uniqWith(result, _.isEqual)
-    
+   
+  
+    return _.uniqWith(result, _.isEqual)
 
 
   })
 
-  // console.log('courses to be mapped through', courses); 
 
   // setting course objects as cookies via client
-  const cookieStore = await cookies()
-   cookieStore.set("COURSE_OBJS", JSON.stringify(courses), { maxAge: 604800, httpOnly: true, sameSite: "strict"});
-  redirect('/schedule'); 
+  const cookieStore = await cookies();
+
+  if (process.env.PRODUCTION = "false") {
+    console.log(process.env.PRODUCTION)
+    cookieStore.set("COURSE_OBJS", JSON.stringify(courses), { maxAge: 604800, httpOnly: true, sameSite: "strict" });
+  } else {
+    cookieStore.set("COURSE_OBJS", JSON.stringify(courses), { maxAge: 604800, secure: true, httpOnly: true, sameSite: 'strict'});
+  }
 
   
+  redirect('/schedule');
+
+
 }
 
 
 
 
-export async function getBuildingAddress(location : string) : Promise<string> {
+
+
+
+export async function getBuildingAddress(location: string): Promise<string> {
 
   const buildingMap: Record<string, string> = {
     "ALRD": "1822 East Mall",
@@ -221,19 +234,19 @@ export async function getBuildingAddress(location : string) : Promise<string> {
     "WMAX": "1933 West Mall",
     "SWNG": "2175 West Mall V6T 1Z4"
   };
-  
+
 
   const abbrev = location.trim().split("-")[0];
- 
 
-  return buildingMap[abbrev]; 
-  
+
+  return buildingMap[abbrev] || `ubc ${location}`;
+
 }
 
 
-export async function changeWaypoint(identifier : string, formData : FormData) {
+export async function changeWaypoint(identifier: string, formData: FormData) {
 
-  const place = formData.get('place'); 
+  const place = formData.get('place');
   const cookieStore = await cookies();
 
   cookieStore.set(identifier, JSON.stringify(place), { maxAge: 86400, httpOnly: true, sameSite: "strict" });
