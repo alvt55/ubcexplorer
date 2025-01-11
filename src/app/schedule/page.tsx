@@ -1,11 +1,20 @@
+
+
 import TravelCard from "./TravelCard";
 import { cookies } from "next/headers";
 import { CourseObj } from "@/lib/definitions";
 import CourseCard from "./CourseCard";
 import Filters from "./Filters";
 import Link from "next/link";
+import { Metadata } from "next";
+import { testCourses } from "@/lib/seed_data";
 
 
+
+export const metadata: Metadata = {
+  title: "Explorer | Schedule",
+  description: "schedule of converted workday schedule into a 2 in 1 course agenda and campus navigator",
+};
 
 export default async function Page(props: {
   searchParams?: Promise<{
@@ -23,13 +32,13 @@ export default async function Page(props: {
 
   if (json) {
     data = JSON.parse(json.value);
-    // console.log("data", data)
+  } else {
+    data = testCourses; 
   }
 
   const searchParams = await props.searchParams;
-  const selectedDay = searchParams?.day || 'Mon';
-  const selectedTerm = searchParams?.term || 'Term 1';
-
+  const selectedDay = searchParams?.day || '';
+  const selectedTerm = searchParams?.term || '';
 
 
   // generates cards based on the day of week and selected term
@@ -39,6 +48,7 @@ export default async function Page(props: {
     const filteredData = data.filter((obj) => {
       return obj.daysOfWeek.includes(day) && obj.term.includes(term);
     })
+
 
 
 
@@ -58,7 +68,7 @@ export default async function Page(props: {
       return dateFromObj(startTimeA).getTime() - dateFromObj(startTimeB).getTime();
     });
 
-    console.log("sorted", sortedObjs);
+    // console.log("sorted", sortedObjs);
 
     const travelCards = [];
 
@@ -105,7 +115,7 @@ export default async function Page(props: {
 
 
     <div className="flex justify-center p-4 w-screen h-fit">
-
+   
 
       {/* TODO: make this stick to top */}
       <section className="grow-5 space-y-12 outline h-fit rounded-xl p-4 top-4 sticky">
@@ -115,6 +125,7 @@ export default async function Page(props: {
           <p>View and filter your schedule here. </p>
           <p>Click <Link href="/" className="underline text-blue">here</Link> to go back.</p>
           <Link href="/contact" className="underline text-blue">Provide Feedback Here</Link>
+
         </header>
 
         <Filters></Filters>
@@ -123,11 +134,11 @@ export default async function Page(props: {
 
 
 
-     
-        <section className="flex-grow justify-items-center w-full">
 
-          {generateTravelCards(selectedDay, selectedTerm)}
-        </section>
+      <section className="flex-grow justify-items-center w-full">
+
+        {generateTravelCards(selectedDay, selectedTerm)}
+      </section>
 
     </div>
   );

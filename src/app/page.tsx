@@ -5,6 +5,7 @@ import XLSX from 'xlsx'
 import JSZip from "jszip";
 
 import { createCourseList } from '@/lib/actions'
+import Link from 'next/link';
 import { useState } from 'react';
 import Popup from './popup';
 
@@ -44,7 +45,7 @@ export default function Page() {
       throw new Error("Data could not be parsed");
     }
 
-    console.log('data before rezip', data);
+    // console.log('data before rezip', data);
     // recompresses xslx file 
     const zip = await JSZip.loadAsync(data);
     const strippedData = await zip.generateAsync({ type: 'arraybuffer' });
@@ -61,11 +62,13 @@ export default function Page() {
     // console.log('raw data', raw_data);
     const raw_courses = raw_data.slice(3, raw_data.length); // removing column names
 
-    await createCourseList(raw_courses);
 
+    console.log(await createCourseList(raw_courses));
 
 
   }
+
+
 
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -87,14 +90,18 @@ export default function Page() {
     <div className="flex items-center justify-center h-screen w-screen">
       <Popup></Popup>
 
-      <div className='flex-col space-y-7 w-2/3'>
+
+
+      <div className='flex-col space-y-7 w-2/3 text-center'>
 
         <header className='text-center space-y-3 '>
           <h1 className="text-5xl">UBC Explorer</h1>
           <p>Covert Workday Excel files into streamlined schedules to help you find your classrooms.</p>
         </header>
+
+
         <form onSubmit={handleSubmit}>
-          <main className="flex flex-col md:flex-row items-center gap-y-4 p-7 justify-evenly rounded-lg">
+          <main className="flex flex-col md:flex-row items-center p-7 justify-evenly rounded-lg">
             <label
               htmlFor="fileupload"
               className="cursor-pointer inline-block text-center bg-gray-200 text-black px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-300"
@@ -114,12 +121,19 @@ export default function Page() {
 
             <button
               type="submit"
-              className="text-center rounded-lg bg-gradient-to-r from-cyan-500 to-blue w-fit px-4 py-2 hover:opacity-80"
-            >
+              className="text-center rounded-lg bg-gradient-to-r from-cyan-500 to-blue w-fit px-4 py-2 hover:opacity-80">
               Get My Schedule
             </button>
+
+
           </main>
+
         </form>
+
+
+
+
+
 
 
 
@@ -129,12 +143,27 @@ export default function Page() {
 
       <section className='bottom-1/4 absolute'>
 
+
+
         <p className='text-center'>File chosen: {fileName || 'none'}</p>
         {error && <h2 className='text-center text-red absolute'>{error}</h2>}
       </section>
 
+      <section className='bottom-5 absolute'>
+
+
+
+        <Link href="/schedule" className="bg-blue p-1 rounded-lg text-xs hover:bg-hoverblue">Test with sample schedule</Link>
+
+      </section>
+
+
+
+
 
     </div>
+
+
 
 
 

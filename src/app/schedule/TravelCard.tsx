@@ -1,3 +1,5 @@
+
+
 import { getBuildingAddress } from "@/lib/actions"
 import { CourseObj } from "@/lib/definitions";
 import Waypoints from "./Waypoints";
