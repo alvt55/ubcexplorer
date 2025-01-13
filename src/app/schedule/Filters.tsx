@@ -39,13 +39,13 @@ export default function Filters() {
 
                 <label>
                     <input type="radio" name="term" className="hidden peer " onClick={() => changeTerm("Term 1")} />
-                    <span className="px-4 py-1  cursor-pointer  peer-checked:bg-hoverblue hover:opacity-80">                        
+                    <span className="px-4 py-1  cursor-pointer  peer-checked:bg-hoverblue hover:opacity-80 outline outline-1">                        
                         Term 1
                     </span>
                 </label>
                 <label>
                     <input type="radio" name="term" className="hidden peer" onClick={() => changeTerm("Term 2")} />
-                    <span className="px-4 py-1  cursor-pointer  peer-checked:bg-hoverblue hover:opacity-80">                        
+                    <span className="px-4 py-1  cursor-pointer  peer-checked:bg-hoverblue hover:opacity-80 outline outline-1">                        
                         Term 2
                     </span>
                 </label>

@@ -16,7 +16,7 @@ export async function getAllFeedback() {
   try {
 
     const responses = await sql<Response>`
-    SELECT * FROM responses
+    SELECT * FROM feedback
     `
 
     return responses.rows;
@@ -64,7 +64,7 @@ export async function submitFeedback(formdata: FormData) {
 
 
   revalidatePath('/');
-  redirect('/contact')
+  redirect('/')
 
 }
 
@@ -249,7 +249,13 @@ export async function changeWaypoint(identifier: string, formData: FormData) {
   const place = formData.get('place');
   const cookieStore = await cookies();
 
-  cookieStore.set(identifier, JSON.stringify(place), { maxAge: 86400, httpOnly: true, sameSite: "strict" });
+
+  if (process.env.PRODUCTION = "false") {
+    cookieStore.set(identifier, JSON.stringify(place), { maxAge: 86400, httpOnly: true, sameSite: "strict" });
+  } else {
+    cookieStore.set(identifier, JSON.stringify(place), { maxAge: 86400, httpOnly: true, sameSite: "strict", secure: true});
+
+  }
 }
 
 

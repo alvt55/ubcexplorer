@@ -57,7 +57,6 @@ export default function Page() {
             id="email"
             name="email"
             type="text"
-
             className="peer block w-full rounded-md border border-gray-300 py-3 px-4 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
@@ -71,7 +70,7 @@ export default function Page() {
           <input
             id="rating"
             name="rating"
-            type="text"
+            type="number"
             min="1"
             max="5"
             className="peer block w-full rounded-md border border-gray-300 py-3 px-4 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
