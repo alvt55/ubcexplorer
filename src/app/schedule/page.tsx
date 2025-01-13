@@ -115,20 +115,27 @@ export default async function Page(props: {
 
 
     <div className="flex justify-center p-4 w-screen h-fit">
-   
+
+
+
+   <link rel="preconnect" href="https://www.google.com/maps"></link>
 
       {/* TODO: make this stick to top */}
-      <section className="grow-5 space-y-12 outline h-fit rounded-xl p-4 top-4 sticky">
+      <section className="grow-5 space-y-12 outline h-fit rounded-xl p-4 top-4 sticky text-center">
 
         <header className='text-center space-y-3 px-10'>
           <h1 className="text-2xl">Schedule</h1>
           <p>View and filter your schedule here. </p>
-          <p>Click <Link href="/" className="underline text-blue">here</Link> to go back.</p>
+      
           <Link href="/contact" className="underline text-blue">Provide Feedback Here</Link>
 
         </header>
 
         <Filters></Filters>
+
+
+        <br></br>
+        <Link href="/" className="underline text-blue">Go to Homepage</Link>
 
       </section >
 
@@ -141,5 +148,9 @@ export default async function Page(props: {
       </section>
 
     </div>
+
+
+
+
   );
 }

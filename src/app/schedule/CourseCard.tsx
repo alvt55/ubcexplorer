@@ -12,7 +12,6 @@ export default function CourseCard({courseObj} : {courseObj : CourseObj}) {
 
         <div className="text-center  mb-4 w-fit ">
             <h1>{section}</h1>
-            {/* <p>{location}</p> */}
             <p>{time}</p>
         </div>
     )

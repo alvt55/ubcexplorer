@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 
 import { FaArrowDownLong } from "react-icons/fa6";
 
+
 export default async function TravelCard({ startObj, endObj }: {
     startObj: CourseObj, endObj: CourseObj
 }) {
@@ -45,8 +46,8 @@ export default async function TravelCard({ startObj, endObj }: {
     return (
         <div className="flex">
 
-
             <iframe
+                title={`map of ${startBuildingName} to ${endBuildingName}`}
                 width="700"
                 height="500"
                 style={{ border: 0 }}
@@ -71,10 +72,6 @@ export default async function TravelCard({ startObj, endObj }: {
                
 
             </div>
-
-
-
-
 
 
         </div>
